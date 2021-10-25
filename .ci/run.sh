@@ -24,15 +24,15 @@ function run_publish_pkg() {
   git reset --hard HEAD
   git clean -xdf
 
-  pypi_version=$(python -c 'import json, urllib.request; print(json.loads(urllib.request.urlopen("https://pypi.org/pypi/tpm2-pytss/json").read())["info"]["version"])')
+  test_pypi_version=$(python -c 'import json, urllib.request; print(json.loads(urllib.request.urlopen("https://test.pypi.org/pypi/tpm2-pytss/json").read())["info"]["version"])')
   tag=${GITHUB_REF/refs\/tags\//}
-  if [ "x${tag}" == "x${pypi_version}" ]; then
-    echo "Git Tag is same as PyPI version: ${tag} == ${pypi_version}"
+  if [ "x${tag}" == "x${test_pypi_version}" ]; then
+    echo "Git Tag is same as PyPI version: ${tag} == ${test_pypi_version}"
     echo "Nothing to do, exiting."
     exit 0
   fi
   python setup.py sdist
-  python -m twine upload dist/*
+  python -m twine upload --repository testpypi dist/*.tar.gz
 }
 
 function run_test() {

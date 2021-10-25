@@ -12,9 +12,13 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
     - name: Install Dependencies
       env:
-        TPM2_TSS_VERSION: 3.0.3
+        TPM2_TSS_VERSION: 3.0.0
       run: |
         python3 -m pip install --user --upgrade pip
         python3 -m pip install --user --upgrade twine
@@ -25,9 +29,9 @@ jobs:
         TEST: 1
       run: ./.ci/run.sh
 
-    - name: Publish to PyPi
+    - name: Publish to Test PyPi
       env:
         PUBLISH_PKG: 1
         TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_TPM2_PYTSS }}
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TPM2_PYTSS }}
       run: ./.ci/run.sh
