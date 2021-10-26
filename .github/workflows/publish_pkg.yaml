@@ -14,7 +14,7 @@ jobs:
 
     - name: Install Dependencies
       env:
-        TPM2_TSS_VERSION: 3.0.3
+        TPM2_TSS_VERSION: 3.0.0
       run: |
         python3 -m pip install --user --upgrade pip
         python3 -m pip install --user --upgrade twine
@@ -29,5 +29,5 @@ jobs:
       env:
         PUBLISH_PKG: 1
         TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_TPM2_PYTSS }}
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TPM2_PYTSS }}
       run: ./.ci/run.sh
